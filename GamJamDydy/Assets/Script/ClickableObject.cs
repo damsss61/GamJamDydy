@@ -24,32 +24,8 @@ public class ClickableObject : MonoBehaviour
     }
 
     void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!onObject) 
-            {
-                MouseDownOutside();
-            }
-                
-        }
-    }
-
-    void OnMouseEnter()
-    {
-        onObject = true;
-    }
-
-    private void OnMouseExit()
-    {
-        onObject = false;
-    }
-   
-    void MouseDownOutside()
-    {
-        selected = false;
-    }
-
+    { }
+  
 
 
     private void OnTriggerEnter(Collider other)
@@ -57,10 +33,14 @@ public class ClickableObject : MonoBehaviour
         if (other.CompareTag("Player") && selected)
         {
             InventoryManager inventory = other.GetComponent<InventoryManager>();
-            inventory.AddItem(item);
-
-            Destroy(gameObject);
+            
         }
+    }
+
+    public void PickItem(InventoryManager inventory)
+    {
+        inventory.AddItem(item);
+        Destroy(gameObject);
     }
 }
 

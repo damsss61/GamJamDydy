@@ -9,10 +9,33 @@ public class UIManager : MonoBehaviour
     public InventoryManager playerInventory;
     public Button slot1;
     public Button slot2;
+    Key key;
+    
 
     int nbBille;
 
-    
+    public void UseItem(int itemIndex)
+    {
+        if (itemIndex==1)
+        {
+            UseKey();
+        }
+        else if (itemIndex==0)
+        {
+            UseMarble();
+        }
+        
+    }
+
+    void UseKey()
+    {
+        key.UseItem();
+    }
+
+    void UseMarble()
+    {
+
+    }
 
     public void UpdateInventoryUI()
     {
@@ -35,6 +58,7 @@ public class UIManager : MonoBehaviour
             if (playerInventory.items[i].GetName() == "Key")
             {
                 slot2.image.sprite = playerInventory.items[i].GetSprite();
+                key = (Key) playerInventory.items[i];
             }
         }
     }
