@@ -15,9 +15,12 @@ public class PlayerController : MonoBehaviour
     bool followTransform;
     Transform clickedTransform;
     InventoryManager inventory;
+    public Item itemUsed;
+    RaycastHit hitInfo;
+
     public enum playerAction
     {
-        idle,walk, talk, pick, useItem
+        idle,walk, talk, pick, useItem, interact, prepareItem
     }
     public playerAction currentAction;
     
@@ -29,10 +32,6 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void ToogleMouvement()
-    {
-        blockMouvement = true;
-    }
 
     void Update()
     {
@@ -44,15 +43,25 @@ public class PlayerController : MonoBehaviour
             }
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
+            
             if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity))
             {
                 clickedTransform = hitInfo.transform;
                 followTransform = false;
                 //register target
                 target = new Vector3(hitInfo.point.x, 1, hitInfo.point.z);
-                Debug.Log(target);
 
+
+                if (currentAction==playerAction.prepareItem)
+                {
+                    destination = target;
+                    WalkToDestination();
+                    agent.stoppingDistance = 2f;
+                    currentAction = playerAction.useItem;
+                    hasReachedDestination = false;
+                    UseItem(hitInfo);
+                    return;
+                }
                 switch (hitInfo.transform.tag)
                 {
                     case "Floor":
@@ -64,13 +73,19 @@ public class PlayerController : MonoBehaviour
 
                     case "NPC":
                         currentAction = playerAction.talk;
-                        agent.stoppingDistance = 2f;
+                        agent.stoppingDistance = 1f;
                         followTransform = true;
                         // follow NPC and talk;
                         break;
 
                     case "Item":
                         currentAction = playerAction.pick;
+                        agent.stoppingDistance = 1f;
+                        followTransform = true;
+                        break;
+
+                    case "Door":
+                        currentAction = playerAction.interact;
                         agent.stoppingDistance = 2f;
                         followTransform = true;
                         break;
@@ -107,7 +122,20 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Pick Item");
                     currentAction = playerAction.idle;
                     break;
+
+                case playerAction.interact:
+                    clickedTransform.GetComponent<InteractableObject>().Interact(this);
+                    followTransform = false;
+                    Debug.Log("Item Activated");
+                    currentAction = playerAction.idle;
+                    break;
+
+                case playerAction.prepareItem:
+                    Debug.Log("Prepare Item");
+                    break;
+
                 case playerAction.useItem:
+                    UseItem(hitInfo);
                     break;
                 default:
                     break;
@@ -115,9 +143,21 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
     }
 
+    public void UseItem(RaycastHit hitInfo)
+    {
+        if (hasReachedDestination)
+        {
+            if (itemUsed.UseItem(hitInfo))
+            {
+                currentAction = playerAction.idle;
+                inventory.RemoveItem(itemUsed);
+                itemUsed = null;
+            }
+        }
+        
+    }
 
     void WalkToDestination()
     {
@@ -153,14 +193,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("NPC"))
+        if (other.transform == hitInfo.transform)
         {
-            if (currentAction == playerAction.talk)
-            {
-                hasReachedDestination = true;
-                agent.SetDestination(transform.position);
-            }
+
+            hasReachedDestination = true;
+            agent.SetDestination(transform.position);
+            followTransform = false;
+
         }
-        
+
+
     }
 }

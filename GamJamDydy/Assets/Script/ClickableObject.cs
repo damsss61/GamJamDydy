@@ -20,12 +20,9 @@ public class ClickableObject : MonoBehaviour
     {
 
         item = GetComponent<Item>();
-        Debug.Log(item.GetName());
+        
     }
 
-    void Update()
-    { }
-  
 
 
     private void OnTriggerEnter(Collider other)

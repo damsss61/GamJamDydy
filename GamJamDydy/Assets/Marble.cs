@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Key : MonoBehaviour, Item
+
+public class Marble : MonoBehaviour,Item
 {
     public Sprite sprite;
     public string name;
+    public GameObject marblePrefab;
 
     public string GetName()
     {
@@ -20,10 +21,10 @@ public class Key : MonoBehaviour, Item
 
     public bool UseItem(RaycastHit hitInfo)
     {
-        if (hitInfo.transform.CompareTag("Door"))
+        if (hitInfo.transform.CompareTag("Floor"))
         {
             
-            hitInfo.transform.GetComponent<Lock>().LockDoor(this);
+            Instantiate(marblePrefab, new Vector3(hitInfo.point.x, 1, hitInfo.point.z), Quaternion.identity);
             Debug.Log("Item utilisé");
             return true;
         }
@@ -32,7 +33,4 @@ public class Key : MonoBehaviour, Item
             return false;
         }
     }
-
-
-
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface Item 
 {
-    void UseItem();
+    bool UseItem(RaycastHit hitInfo);
     Sprite GetSprite();
     string GetName();
 
