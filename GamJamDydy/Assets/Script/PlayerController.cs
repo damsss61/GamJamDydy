@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     public float speed=5f;
-    public NavMeshAgent agent;
+    NavMeshAgent agent;
     Vector3 target;
     Vector3 destination;
     public bool blockMouvement;
@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     InventoryManager inventory;
     public Item itemUsed;
     RaycastHit hitInfo;
+    public Animator animator;
+    Rigidbody rb;
+    Vector3 previous;
+    Vector3 velocity;
 
     public enum playerAction
     {
@@ -29,6 +33,8 @@ public class PlayerController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         inventory = GetComponent<InventoryManager>();
+        rb = GetComponent<Rigidbody>();
+        previous = transform.position;
         
     }
 
@@ -101,6 +107,20 @@ public class PlayerController : MonoBehaviour
             destination = new Vector3(clickedTransform.position.x, 1, clickedTransform.position.z);
             WalkToDestination();
         }
+
+         
+        
+
+
+        velocity = ((transform.position - previous)) / Time.deltaTime;
+        previous = transform.position;
+
+        float speed = velocity.magnitude+0.001f;
+
+        animator.SetFloat("speed", speed);
+        animator.SetFloat("horizontal", velocity.x / speed);
+        animator.SetFloat("vertical", velocity.z / speed);
+
 
         CheckDestination();
 
