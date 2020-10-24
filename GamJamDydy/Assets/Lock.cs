@@ -8,8 +8,12 @@ public class Lock : MonoBehaviour,InteractableObject
     
     public void Interact(PlayerController player)
     {
-        player.GetComponent<InventoryManager>().AddItem(GetComponent<Item>());
-        ReleaseDoor();
+        if (GetComponent<Item>() !=null)
+        {
+            player.GetComponent<InventoryManager>().AddItem(GetComponent<Item>());
+            ReleaseDoor();
+        }
+        
     }
 
     public void LockDoor(Key key)
