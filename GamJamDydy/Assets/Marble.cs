@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Marble : MonoBehaviour,Item
 {
     public Sprite sprite;
@@ -22,6 +23,7 @@ public class Marble : MonoBehaviour,Item
     {
         if (hitInfo.transform.CompareTag("Floor"))
         {
+            
             Instantiate(marblePrefab, new Vector3(hitInfo.point.x, 1, hitInfo.point.z), Quaternion.identity);
             Debug.Log("Item utilisé");
             return true;
