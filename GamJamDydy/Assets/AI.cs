@@ -17,6 +17,7 @@ public class AI : MonoBehaviour
     bool hasReachedDestination = false;
     Vector3 destination;
     public int changeRoomTime=10000;
+    bool isMooving;
 
 
     private void Start()
@@ -25,6 +26,7 @@ public class AI : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        gameManager.AddAI(this);
         if (awereness == AIType.unaware)
         {
             gameManager.AddUnawareAI(this);
@@ -32,15 +34,71 @@ public class AI : MonoBehaviour
 
     }
     
-
-    void FindRoom()
+   
+    private void Update()
     {
-        if (Random.Range(0,changeRoomTime)==0)
+        
+
+        if (targetTransform==null)
         {
-            int index = Random.Range(0,gameManager.rooms.Count);
-            targetTransform = gameManager.rooms[index];
+            FindTarget();
+        }
+
+        WalkToDestination();
+
+        CheckDestination();
+
+        if (hasReachedDestination)
+        {
+            targetTransform = null;
+        }
+
+
+            UpdateAnimator();
+    }
+
+    void ExecuteAction()
+    {
+        if (awereness == AIType.aware)
+        {
+            ShareSecret();
+            FindTarget();
+        }
+        else
+        {
+            FindRoom();
+        }
+    }
+
+
+    public void DialogueResponse(int roomIndex)
+    {
+        if (awereness == AIType.unaware)
+        {
+            targetTransform = gameManager.rooms[roomIndex - 1];
             destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
             WalkToDestination();
+        }
+    }
+
+    void GetRoom()
+    {
+        int index = Random.Range(0, gameManager.rooms.Count);
+        targetTransform = gameManager.rooms[index];
+        destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+    }
+    void FindRoom()
+    {
+            if (Random.Range(0, changeRoomTime) == 0)
+            {
+                int index = Random.Range(0, gameManager.rooms.Count);
+                targetTransform = gameManager.rooms[index];
+                destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+        }
+        else
+        {
+            targetTransform = null;
+            destination = transform.position;
         }
     }
 
@@ -48,55 +106,21 @@ public class AI : MonoBehaviour
     {
         if (awereness == AIType.aware)
         {
-            if (gameManager.unawarePersons.Count>0)
+            if (gameManager.unawarePersons.Count > 0)
             {
                 int index = Random.Range(0, gameManager.unawarePersons.Count);
                 targetTransform = gameManager.unawarePersons[index].transform;
                 destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
-                WalkToDestination();
             }
             else
             {
+                //KeyNotFoundException more target
+
                 hasReachedDestination = true;
                 agent.SetDestination(transform.position);
+                targetTransform = null;
             }
-            
-        }
 
-    }
-
-    void WalkToDestination()
-    {
-        agent.SetDestination(destination);
-    }
-
-    private void Update()
-    {
-        if (targetTransform == null)
-        {
-            if (awereness == AIType.aware)
-            {
-
-                FindTarget();
-
-            }
-            
-        }
-        
-
-        CheckDestination();
-
-        WalkToDestination();
-
-        if (awereness == AIType.aware)
-        {
-
-            if (hasReachedDestination)
-            {
-                ShareSecret();
-                FindTarget();
-            }
-            destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
         }
         else
         {
@@ -105,6 +129,42 @@ public class AI : MonoBehaviour
 
     }
 
+    void WalkToDestination()
+    {
+        if (!gameManager.onPause)
+        {
+            if (targetTransform!=null)
+            {
+                destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+                agent.SetDestination(destination);
+                isMooving = true;
+            }
+            else
+            {
+                destination = transform.position;
+                isMooving = false;
+            }
+            agent.isStopped = false;
+            agent.SetDestination(destination);
+            
+        }
+        else
+        {
+            agent.isStopped = true;
+            isMooving = false;
+        }
+
+    }
+
+
+    void UpdateAnimator()
+    {
+        float horizonal = Mathf.Sin(transform.eulerAngles.y * Mathf.PI / 180);
+        float vertical = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180);
+        animator.SetBool("isMooving", isMooving);
+        animator.SetFloat("horizontal", horizonal);
+        animator.SetFloat("vertical", vertical);
+    }
     void CheckDestination()
     {
         if (!agent.pathPending)
@@ -118,16 +178,19 @@ public class AI : MonoBehaviour
                 else
                 {
                     hasReachedDestination = false;
+                    
                 }
             }
             else
             {
                 hasReachedDestination = false;
+                
             }
         }
         else
         {
             hasReachedDestination = false;
+            
         }
     }
 
@@ -143,31 +206,21 @@ public class AI : MonoBehaviour
         if (awereness == AIType.unaware)
         {
             awereness = AIType.aware;
-            FindTarget();
+            GetRoom();
         }
-    }
-    private void FixedUpdate()
-    {
-        float horizonal = Mathf.Sin(transform.eulerAngles.y * Mathf.PI / 180);
-        float vertical = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180);
-        animator.SetBool("isMooving", !hasReachedDestination);
-        animator.SetFloat("horizontal", horizonal);
-        animator.SetFloat("vertical", vertical);
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
 
-        if (!other.CompareTag("Floor"))
+        if (other.CompareTag("NPC"))
         {
             if (awereness == AIType.aware)
             {
 
                 if (other.transform == targetTransform)
                 {
-                    hasReachedDestination = true;
-                    agent.SetDestination(transform.position);
+                    ExecuteAction();
 
 
                 }
