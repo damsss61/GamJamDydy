@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over");
         Pause();
+        SceneManager.LoadScene(2);
     }
     void UpdateTimer()
     {

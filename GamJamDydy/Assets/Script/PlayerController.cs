@@ -96,8 +96,8 @@ public class PlayerController : MonoBehaviour
 
                     case "Door":
                         currentAction = playerAction.interact;
-                        agent.stoppingDistance = 2f;
-                        followTransform = true;
+                        agent.stoppingDistance = 0.1f;
+                        followTransform = false;
                         break;
 
                     default:
