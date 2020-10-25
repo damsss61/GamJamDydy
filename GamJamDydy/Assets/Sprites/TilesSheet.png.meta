@@ -56,6 +56,21 @@ TextureImporter:
   - first:
       213: -5887213669000475421
     second: TilesSheet_9
+  - first:
+      213: 5127805212979304862
+    second: TilesSheet_8
+  - first:
+      213: -1795936594019768615
+    second: TilesSheet_9
+  - first:
+      213: -43973073094068955
+    second: TilesSheet_10
+  - first:
+      213: 3330128466686338700
+    second: TilesSheet_11
+  - first:
+      213: 4534361846114567870
+    second: TilesSheet_12
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -325,8 +340,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 406740b15a1a46900800000000000000
-      internalID: 676843574507369988
+      spriteID: e9917054caf992740800000000000000
+      internalID: 5127805212979304862
       vertices: []
       indices: 
       edges: []
@@ -346,8 +361,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ec076e1c5a6c4ea0800000000000000
-      internalID: -5887213669000475421
+      spriteID: 9d6a35ade2d8317e0800000000000000
+      internalID: -1795936594019768615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesSheet_10
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 525bb8619b6c36ff0800000000000000
+      internalID: -43973073094068955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesSheet_11
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c866149523ef63e20800000000000000
+      internalID: 3330128466686338700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TilesSheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb64eb0331a4dee30800000000000000
+      internalID: 4534361846114567870
       vertices: []
       indices: 
       edges: []
