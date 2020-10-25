@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed=5f;
+    
     NavMeshAgent agent;
     Vector3 target;
     Vector3 destination;
@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Vector3 previous;
     Vector3 velocity;
+    List<Vector3> velocities;
+    float speed;
+    Vector3 velocityMoy;
 
     public enum playerAction
     {
@@ -35,7 +38,6 @@ public class PlayerController : MonoBehaviour
         inventory = GetComponent<InventoryManager>();
         rb = GetComponent<Rigidbody>();
         previous = transform.position;
-        
     }
 
 
@@ -109,18 +111,7 @@ public class PlayerController : MonoBehaviour
         }
 
          
-        
-
-
-        velocity = ((transform.position - previous)) / Time.deltaTime;
-        previous = transform.position;
-
-        float speed = velocity.magnitude+0.001f;
-
-        animator.SetFloat("speed", speed);
-        animator.SetFloat("horizontal", velocity.x / speed);
-        animator.SetFloat("vertical", velocity.z / speed);
-
+       
 
         CheckDestination();
 
@@ -163,6 +154,16 @@ public class PlayerController : MonoBehaviour
 
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+        float horizonal = Mathf.Sin(transform.eulerAngles.y * Mathf.PI / 180);
+        float vertical = Mathf.Cos(transform.eulerAngles.y * Mathf.PI / 180);
+        animator.SetBool("isMooving", !hasReachedDestination);
+        animator.SetFloat("horizontal", horizonal);
+        animator.SetFloat("vertical", vertical);
+        
     }
 
     public void UseItem(RaycastHit hitInfo)
@@ -222,10 +223,7 @@ public class PlayerController : MonoBehaviour
                 followTransform = false;
             }
 
-            
-
         }
-
 
     }
 }
