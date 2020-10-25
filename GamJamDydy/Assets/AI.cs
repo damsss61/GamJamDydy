@@ -18,6 +18,7 @@ public class AI : MonoBehaviour
     Vector3 destination;
     public int changeRoomTime=10000;
     bool isMooving;
+    bool isSlowed;
 
 
     private void Start()
@@ -228,9 +229,26 @@ public class AI : MonoBehaviour
 
         }
 
-
-
+        if (other.GetComponent<Marble>() !=null)
+        {
+            //agent.speed *= 0.5f;
+        }
 
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<Marble>() != null)
+        {
+            agent.speed = 0.5f;
+        }
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Marble>() != null)
+        {
+            agent.speed = 1f;
+        }
+    }
 }

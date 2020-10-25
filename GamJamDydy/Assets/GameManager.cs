@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public List<Transform> rooms;
     public bool onPause;
     public TextMeshProUGUI counter;
+    public TextMeshProUGUI timer;
+    float timeSinceStart=0f;
 
     
 
@@ -17,10 +19,13 @@ public class GameManager : MonoBehaviour
     {
         //Spawn NPC
         UpdateCounter();
+        UpdateTimer();
         if (unawarePersons.Count==0)
         {
             GameOver();
         }
+
+
 
     }
 
@@ -28,6 +33,19 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over");
         Pause();
+    }
+    void UpdateTimer()
+    {
+        if (!onPause)
+        {
+            timeSinceStart += Time.fixedDeltaTime;
+            string minute = ((int)timeSinceStart / 60).ToString();
+            string seconds = (timeSinceStart % 60).ToString("f0");
+            string miliseconds = (((timeSinceStart % 60-(int)timeSinceStart % 60)*100)%99).ToString("f0");
+            timer.text = minute + ":" + seconds + ":" + miliseconds;
+        }
+        
+
     }
 
     void UpdateCounter()

@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
 
                     case "Item":
                         currentAction = playerAction.pick;
-                        agent.stoppingDistance = 1f;
+                        agent.stoppingDistance = 3f;
                         followTransform = true;
                         break;
 
