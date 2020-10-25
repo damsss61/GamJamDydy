@@ -215,10 +215,14 @@ public class PlayerController : MonoBehaviour
     {
         if (other.transform == hitInfo.transform)
         {
+            if (!other.CompareTag("Floor"))
+            {
+                hasReachedDestination = true;
+                agent.SetDestination(transform.position);
+                followTransform = false;
+            }
 
-            hasReachedDestination = true;
-            agent.SetDestination(transform.position);
-            followTransform = false;
+            
 
         }
 
