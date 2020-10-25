@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     public List<Transform> rooms;
     public bool onPause;
     public TextMeshProUGUI counter;
+    public TextMeshProUGUI timer;
+    float timeSinceStart=0f;
 
     
 
@@ -17,6 +20,33 @@ public class GameManager : MonoBehaviour
     {
         //Spawn NPC
         UpdateCounter();
+        UpdateTimer();
+        if (unawarePersons.Count==0)
+        {
+            GameOver();
+        }
+
+
+
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+        Pause();
+        SceneManager.LoadScene(2);
+    }
+    void UpdateTimer()
+    {
+        if (!onPause)
+        {
+            timeSinceStart += Time.fixedDeltaTime;
+            string minute = ((int)timeSinceStart / 60).ToString();
+            string seconds = (timeSinceStart % 60).ToString("f0");
+            string miliseconds = (((timeSinceStart % 60-(int)timeSinceStart % 60)*100)%99).ToString("f0");
+            timer.text = minute + ":" + seconds + ":" + miliseconds;
+        }
+        
 
     }
 

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public Item itemUsed;
     RaycastHit hitInfo;
     public Animator animator;
+    GameManager gameManager;
     Rigidbody rb;
     Vector3 previous;
     Vector3 velocity;
@@ -38,12 +39,13 @@ public class PlayerController : MonoBehaviour
         inventory = GetComponent<InventoryManager>();
         rb = GetComponent<Rigidbody>();
         previous = transform.position;
+        gameManager = FindObjectOfType<GameManager>();
     }
 
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !gameManager.onPause)
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
@@ -88,14 +90,14 @@ public class PlayerController : MonoBehaviour
 
                     case "Item":
                         currentAction = playerAction.pick;
-                        agent.stoppingDistance = 1f;
+                        agent.stoppingDistance = 3f;
                         followTransform = true;
                         break;
 
                     case "Door":
                         currentAction = playerAction.interact;
-                        agent.stoppingDistance = 2f;
-                        followTransform = true;
+                        agent.stoppingDistance = 0.1f;
+                        followTransform = false;
                         break;
 
                     default:
@@ -143,6 +145,10 @@ public class PlayerController : MonoBehaviour
 
                 case playerAction.prepareItem:
                     Debug.Log("Prepare Item");
+                    break;
+
+                case playerAction.idle:
+                    hasReachedDestination = true;
                     break;
 
                 case playerAction.useItem:
