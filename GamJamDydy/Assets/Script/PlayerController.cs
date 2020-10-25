@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
                 {
                     case "Floor":
                         currentAction = playerAction.walk;
-                        agent.stoppingDistance = 0f;
+                        agent.stoppingDistance = 0.1f;
                         destination = target;
                         WalkToDestination();
                         break;
@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
                     currentAction = playerAction.idle;
                     break;
                 case playerAction.talk:
-                    Debug.Log("Talk");
+                    clickedTransform.GetComponent<DialogueTrigger>().TriggerDialogue();
                     currentAction = playerAction.idle;
                     followTransform = false;
                     break;
