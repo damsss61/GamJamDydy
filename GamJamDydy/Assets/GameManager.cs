@@ -17,7 +17,17 @@ public class GameManager : MonoBehaviour
     {
         //Spawn NPC
         UpdateCounter();
+        if (unawarePersons.Count==0)
+        {
+            GameOver();
+        }
 
+    }
+
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+        Pause();
     }
 
     void UpdateCounter()
