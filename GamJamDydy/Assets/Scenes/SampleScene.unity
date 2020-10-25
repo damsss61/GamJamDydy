@@ -4168,7 +4168,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &14213096
 GameObject:
@@ -13821,11 +13821,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   awareDialogue:
-    sentences: []
-    calledName: 
+    sentences:
+    - sentence: I know your secret ! I'm gonna tell everyone !
+      isQuestion: 0
+    calledName: Lily
   unawareDialogue:
     sentences: []
-    calledName: 
+    calledName: Lily
 --- !u!1 &136419724
 GameObject:
   m_ObjectHideFlags: 0
@@ -14421,7 +14423,7 @@ Transform:
   m_LocalScale: {x: 1.0000005, y: 1, z: 0.98991644}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &181556835
 GameObject:
@@ -14786,7 +14788,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &251355081
 GameObject:
@@ -16175,7 +16177,7 @@ Transform:
   m_Children:
   - {fileID: 597824729}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &444654341
 MonoBehaviour:
@@ -16523,6 +16525,7 @@ GameObject:
   - component: {fileID: 495170400}
   - component: {fileID: 495170402}
   - component: {fileID: 495170401}
+  - component: {fileID: 495170403}
   m_Layer: 0
   m_Name: DialogueBox
   m_TagString: Untagged
@@ -16596,6 +16599,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495170399}
   m_CullTransparentMesh: 0
+--- !u!95 &495170403
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495170399}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 86e6eb8e1cc967b46b1a8bb5220e7122, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &497905089
 GameObject:
   m_ObjectHideFlags: 0
@@ -18705,7 +18727,7 @@ Transform:
   - {fileID: 1712607278}
   - {fileID: 978024468}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &678555412
 GameObject:
@@ -19381,8 +19403,9 @@ GameObject:
   - component: {fileID: 806960450}
   - component: {fileID: 806960449}
   - component: {fileID: 806960448}
+  - component: {fileID: 806960453}
   m_Layer: 0
-  m_Name: Guest (1)
+  m_Name: Dad
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19466,8 +19489,32 @@ Transform:
   m_Children:
   - {fileID: 2126047383}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &806960453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806960447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3593bf6717fa18643bd0ef38306bb088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  awareDialogue:
+    sentences:
+    - sentence: I can't believe you did this !
+      isQuestion: 0
+    calledName: Dad
+  unawareDialogue:
+    sentences:
+    - sentence: Do you know where is mom
+      isQuestion: 1
+    - sentence: I'll check
+      isQuestion: 0
+    calledName: Dad
 --- !u!1 &807158399
 GameObject:
   m_ObjectHideFlags: 0
@@ -25465,7 +25512,7 @@ Transform:
   m_Children:
   - {fileID: 1682943156}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063378096
 GameObject:
@@ -25907,7 +25954,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1309172183}
   AnswerBox: {fileID: 2137085953}
   ContinueBox: {fileID: 1424193427}
-  animator: {fileID: 0}
+  animator: {fileID: 495170403}
   caller: {fileID: 0}
 --- !u!1 &1128091270
 GameObject:
@@ -25952,6 +25999,7 @@ GameObject:
   - component: {fileID: 1158408411}
   - component: {fileID: 1158408410}
   - component: {fileID: 1158408414}
+  - component: {fileID: 1158408415}
   m_Layer: 0
   m_Name: Guest
   m_TagString: NPC
@@ -26039,6 +26087,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   awereness: 1
   changeRoomTime: 1000
+--- !u!114 &1158408415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158408409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3593bf6717fa18643bd0ef38306bb088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  awareDialogue:
+    sentences:
+    - sentence: I can't believe what Lily told me !
+      isQuestion: 0
+    calledName: George
+  unawareDialogue:
+    sentences:
+    - sentence: Where can I go to meet people ?
+      isQuestion: 1
+    - sentence: Fine
+      isQuestion: 0
+    calledName: George
 --- !u!1 &1160643772
 GameObject:
   m_ObjectHideFlags: 0
@@ -27981,7 +28053,7 @@ Transform:
   m_Children:
   - {fileID: 391752443}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449492847
 GameObject:
@@ -28848,7 +28920,7 @@ Transform:
   - {fileID: 44261094}
   - {fileID: 1219369951}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1541841619
 GameObject:
@@ -29404,7 +29476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1631760177
 GameObject:
@@ -32274,7 +32346,7 @@ Transform:
   m_Children:
   - {fileID: 963182473}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2105873830
 GameObject:
