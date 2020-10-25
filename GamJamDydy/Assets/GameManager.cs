@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public List<AI> persons;
     public List<AI> unawarePersons;
-
+    public List<Transform> rooms;
 
 
     void Start()

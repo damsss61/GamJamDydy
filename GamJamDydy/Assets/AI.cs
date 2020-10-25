@@ -13,20 +13,34 @@ public class AI : MonoBehaviour
     Vector3 previous;
     Vector3 velocity;
     float speed;
-    public Animator animator;
-    bool hasReachedDestination;
+    Animator animator;
+    bool hasReachedDestination = false;
     Vector3 destination;
+    public int changeRoomTime=10000;
 
 
     private void Start()
     {
+
         gameManager = FindObjectOfType<GameManager>();
         agent = GetComponent<NavMeshAgent>();
-        FindTarget();
         animator = GetComponentInChildren<Animator>();
         if (awereness == AIType.unaware)
         {
             gameManager.AddUnawareAI(this);
+        }
+
+    }
+    
+
+    void FindRoom()
+    {
+        if (Random.Range(0,changeRoomTime)==0)
+        {
+            int index = Random.Range(0,gameManager.rooms.Count);
+            targetTransform = gameManager.rooms[index];
+            destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+            WalkToDestination();
         }
     }
 
@@ -36,8 +50,8 @@ public class AI : MonoBehaviour
         {
             if (gameManager.unawarePersons.Count>0)
             {
-                int index = Random.Range(1, gameManager.unawarePersons.Count);
-                targetTransform = gameManager.unawarePersons[index - 1].transform;
+                int index = Random.Range(0, gameManager.unawarePersons.Count);
+                targetTransform = gameManager.unawarePersons[index].transform;
                 destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
                 WalkToDestination();
             }
@@ -58,6 +72,18 @@ public class AI : MonoBehaviour
 
     private void Update()
     {
+        if (targetTransform == null)
+        {
+            if (awereness == AIType.aware)
+            {
+
+                FindTarget();
+
+            }
+            
+        }
+        
+
         CheckDestination();
 
         WalkToDestination();
@@ -71,6 +97,10 @@ public class AI : MonoBehaviour
                 FindTarget();
             }
             destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+        }
+        else
+        {
+            FindRoom();
         }
 
     }
