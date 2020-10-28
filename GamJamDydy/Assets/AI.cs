@@ -229,26 +229,8 @@ public class AI : MonoBehaviour
 
         }
 
-        if (other.GetComponent<Marble>() !=null)
-        {
-            //agent.speed *= 0.5f;
-        }
 
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.GetComponent<Marble>() != null)
-        {
-            agent.speed = 0.5f;
-        }
-
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.GetComponent<Marble>() != null)
-        {
-            agent.speed = 1f;
-        }
-    }
+    
 }

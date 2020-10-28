@@ -5,8 +5,21 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public void loadScene()
+    Animator animator;
+    private void Start()
     {
-        SceneManager.LoadScene(1);
+        animator = GetComponent<Animator>();
+    }
+    public void loadScene(int sceneIndex)
+    {
+        StartCoroutine(LoadSceneFade(sceneIndex));
+
+    }
+
+    IEnumerator LoadSceneFade(int sceneIndex)
+    {
+        animator.SetTrigger("Start");
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(sceneIndex);
     }
 }

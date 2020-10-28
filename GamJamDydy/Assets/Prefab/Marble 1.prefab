@@ -62,6 +62,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 292f5e028cc40ac4bbcdaa494224486f, type: 3}
   name: Marble
   marblePrefab: {fileID: 1755679556106761678, guid: c99fa25e36dae6f41a457216499c808a, type: 3}
+  speedFactor: 0.5
 --- !u!114 &1755679556106761679
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI counter;
     public TextMeshProUGUI timer;
     float timeSinceStart=0f;
+    public UnityEvent onDeathEvent;
+    
 
     
 
@@ -34,7 +37,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game Over");
         Pause();
-        SceneManager.LoadScene(2);
+        PlayerPrefs.SetFloat("Score", timeSinceStart);
+        if (onDeathEvent!=null)
+        {
+            onDeathEvent.Invoke();
+        }
+        
     }
     void UpdateTimer()
     {
