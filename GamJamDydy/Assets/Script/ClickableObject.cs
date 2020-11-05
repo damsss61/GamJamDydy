@@ -8,7 +8,8 @@ public class ClickableObject : MonoBehaviour
     private bool selected = false;
     Item item;
     private bool onObject = false;
-
+    public AudioClip pickUpSound;
+    AudioSource audio;
 
 
     private void OnMouseDown()
@@ -18,7 +19,7 @@ public class ClickableObject : MonoBehaviour
 
     private void Start()
     {
-
+        audio = GetComponent<AudioSource>();
         item = GetComponent<Item>();
         
     }
@@ -37,7 +38,9 @@ public class ClickableObject : MonoBehaviour
     public void PickItem(InventoryManager inventory)
     {
         inventory.AddItem(item);
-        Destroy(gameObject);
+        audio.PlayOneShot(pickUpSound);
+        Destroy(gameObject,0.3f);
+        
     }
 }
 

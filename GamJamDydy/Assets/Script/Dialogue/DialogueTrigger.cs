@@ -9,7 +9,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        if (GetComponent<AI>().awereness==AI.AIType.aware)
+        if (GetComponent<NpcController>().awereness==NpcController.AIType.aware)
         {
             FindObjectOfType<DialogueManager>().StartDialogue(awareDialogue, gameObject);
         }

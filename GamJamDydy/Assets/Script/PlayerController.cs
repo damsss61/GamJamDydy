@@ -40,11 +40,14 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         previous = transform.position;
         gameManager = FindObjectOfType<GameManager>();
+
     }
 
 
     void Update()
     {
+        
+
         if (Input.GetMouseButtonDown(0) && !gameManager.onPause)
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -132,19 +135,16 @@ public class PlayerController : MonoBehaviour
                 case playerAction.pick:
                     clickedTransform.GetComponent<ClickableObject>().PickItem(inventory);
                     followTransform = false;
-                    Debug.Log("Pick Item");
                     currentAction = playerAction.idle;
                     break;
 
                 case playerAction.interact:
                     clickedTransform.GetComponent<InteractableObject>().Interact(this);
                     followTransform = false;
-                    Debug.Log("Item Activated");
                     currentAction = playerAction.idle;
                     break;
 
                 case playerAction.prepareItem:
-                    Debug.Log("Prepare Item");
                     break;
 
                 case playerAction.idle:

@@ -54,6 +54,10 @@ public class DialogueManager : MonoBehaviour
         Sentence sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence.sentence));
+        if (caller.GetComponentInChildren<CharacterSound>()!=null)
+        {
+            caller.GetComponentInChildren<CharacterSound>().PlayBlabla();
+        }
         if (sentence.isQuestion)
         {
             AnswerBox.gameObject.SetActive(true);
@@ -81,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("isOpen", false);
         if (dialogueResponse!=0)
         {
-            caller.GetComponent<AI>().DialogueResponse(dialogueResponse);
+            caller.GetComponent<NpcController>().DialogueResponse(dialogueResponse);
         }
         gameManager.Restart();
 

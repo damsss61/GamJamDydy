@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour
         slot1.image.sprite = null;
         slot2.image.sprite = null;
 
-        Debug.Log(playerInventory.items.Count);
         for (int i = 0; i < playerInventory.items.Count; i++)
         {
             if (playerInventory.items[i].GetName()=="Marble")

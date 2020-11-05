@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AI : MonoBehaviour
+public class NpcController : MonoBehaviour
 {
     public enum AIType { aware, unaware }
     public AIType awereness;
+    public string npcName;
     GameManager gameManager;
     Transform targetTransform;
     NavMeshAgent agent;
@@ -16,7 +17,8 @@ public class AI : MonoBehaviour
     Animator animator;
     bool hasReachedDestination = false;
     Vector3 destination;
-    public int changeRoomTime=10000;
+    public int changeRoomTime = 10000;
+    public int changeTargetTime = 10000;
     bool isMooving;
     bool isSlowed;
 
@@ -31,19 +33,23 @@ public class AI : MonoBehaviour
         if (awereness == AIType.unaware)
         {
             gameManager.AddUnawareAI(this);
+            GetRoom();
         }
-
-    }
-    
-   
-    private void Update()
-    {
         
 
-        if (targetTransform==null)
+    }
+
+
+    private void Update()
+    {
+
+
+        if (targetTransform == null)
         {
             FindTarget();
         }
+
+        RandomlyChangeTarget();
 
         WalkToDestination();
 
@@ -55,7 +61,7 @@ public class AI : MonoBehaviour
         }
 
 
-            UpdateAnimator();
+        UpdateAnimator();
     }
 
     void ExecuteAction()
@@ -71,6 +77,35 @@ public class AI : MonoBehaviour
         }
     }
 
+    void RandomlyChangeTarget()
+    {
+        if (awereness == AIType.aware)
+        {
+            if (Random.Range(0, changeTargetTime) == 0)
+            {
+                targetTransform = ClosestTarget();
+                ShareThought();
+            }
+        }
+    }
+
+
+    public Transform ClosestTarget()
+    {
+        float sqrDist = float.MaxValue;
+        Transform target = targetTransform;
+        foreach (NpcController unawareNPC in gameManager.unawarePersons)
+        {
+            if (Vector3.SqrMagnitude(unawareNPC.transform.position-transform.position)<sqrDist)
+            {
+                sqrDist = Vector3.SqrMagnitude(unawareNPC.transform.position - transform.position);
+                target = unawareNPC.transform;
+            }
+        }
+
+        return target;
+    }
+
 
     public void DialogueResponse(int roomIndex)
     {
@@ -82,7 +117,7 @@ public class AI : MonoBehaviour
         }
     }
 
-    void GetRoom()
+    public void GetRoom()
     {
         int index = Random.Range(0, gameManager.rooms.Count);
         targetTransform = gameManager.rooms[index];
@@ -90,11 +125,12 @@ public class AI : MonoBehaviour
     }
     void FindRoom()
     {
-            if (Random.Range(0, changeRoomTime) == 0)
-            {
-                int index = Random.Range(0, gameManager.rooms.Count);
-                targetTransform = gameManager.rooms[index];
-                destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+        if (Random.Range(0, changeRoomTime) == 0)
+        {
+            int index = Random.Range(0, gameManager.rooms.Count);
+            targetTransform = gameManager.rooms[index];
+            destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
+            ShareThought();
         }
         else
         {
@@ -111,12 +147,11 @@ public class AI : MonoBehaviour
             {
                 int index = Random.Range(0, gameManager.unawarePersons.Count);
                 targetTransform = gameManager.unawarePersons[index].transform;
+                ShareThought();
                 destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
             }
             else
             {
-                //KeyNotFoundException more target
-
                 hasReachedDestination = true;
                 agent.SetDestination(transform.position);
                 targetTransform = null;
@@ -134,7 +169,7 @@ public class AI : MonoBehaviour
     {
         if (!gameManager.onPause)
         {
-            if (targetTransform!=null)
+            if (targetTransform != null)
             {
                 destination = new Vector3(targetTransform.position.x, 1, targetTransform.position.z);
                 agent.SetDestination(destination);
@@ -147,7 +182,7 @@ public class AI : MonoBehaviour
             }
             agent.isStopped = false;
             agent.SetDestination(destination);
-            
+
         }
         else
         {
@@ -179,27 +214,41 @@ public class AI : MonoBehaviour
                 else
                 {
                     hasReachedDestination = false;
-                    
+
                 }
             }
             else
             {
                 hasReachedDestination = false;
-                
+
             }
         }
         else
         {
             hasReachedDestination = false;
-            
+
         }
     }
 
     void ShareSecret()
     {
-        targetTransform.GetComponent<AI>().GetAware();
+        targetTransform.GetComponent<NpcController>().GetAware();
 
-        gameManager.RemoveUnawareAI(targetTransform.GetComponent<AI>());
+        gameManager.RemoveUnawareAI(targetTransform.GetComponent<NpcController>());
+    }
+
+    void ShareThought()
+    {
+        if (awereness == AIType.aware)
+        {
+            string sentence = "I'm gonna tell " + targetTransform.GetComponent<NpcController>().npcName + " !";
+            ChatBubble.Create(transform.GetChild(0), new Vector3(0.5f, 0.5f), sentence, 4f);
+        }
+        else
+        {
+            string sentence = "I'm going to the " + targetTransform.name + " !";
+            ChatBubble.Create(transform.GetChild(0), new Vector3(0.5f, 0.5f), sentence, 4f);
+        }
     }
 
     public void GetAware()
@@ -208,6 +257,7 @@ public class AI : MonoBehaviour
         {
             awereness = AIType.aware;
             GetRoom();
+            ChatBubble.Create(transform.GetChild(0), new Vector3(0.5f, 0.5f), "I can't believe it !", 4f);
         }
     }
 
@@ -232,5 +282,5 @@ public class AI : MonoBehaviour
 
     }
 
-    
+
 }

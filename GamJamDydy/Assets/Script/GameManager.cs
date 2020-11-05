@@ -7,16 +7,17 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public List<AI> persons;
-    public List<AI> unawarePersons;
+    public List<NpcController> persons;
+    public List<NpcController> unawarePersons;
     public List<Transform> rooms;
     public bool onPause;
     public TextMeshProUGUI counter;
     public TextMeshProUGUI timer;
     float timeSinceStart=0f;
     public UnityEvent onDeathEvent;
-    
-
+    public List<int> spawnTimes;
+    float eps = 0.1f;
+    public Spawner spawner;
     
 
     private void FixedUpdate()
@@ -24,10 +25,22 @@ public class GameManager : MonoBehaviour
         //Spawn NPC
         UpdateCounter();
         UpdateTimer();
+        if (spawnTimes.Count != 0)
+        {
+            if (Mathf.Abs(timeSinceStart - spawnTimes[0]) < eps)
+            {
+                spawner.SpawnRandomNPC();
+                spawnTimes.RemoveAt(0);
+            }
+        }
+        
+
+
         if (unawarePersons.Count==0)
         {
             GameOver();
         }
+
 
 
 
@@ -74,17 +87,17 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void AddAI(AI ai)
+    public void AddAI(NpcController ai)
     {
         persons.Add(ai);
     }
 
-    public void AddUnawareAI(AI ai)
+    public void AddUnawareAI(NpcController ai)
     {
         unawarePersons.Add(ai);
     }
 
-    public void RemoveUnawareAI(AI ai)
+    public void RemoveUnawareAI(NpcController ai)
     {
         unawarePersons.Remove(ai);
     }

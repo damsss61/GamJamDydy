@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class move : MonoBehaviour
+public class Move : MonoBehaviour
 {
-    public float speed = 2f;
+
+    public Transform target;
     // Start is called before the first frame update
     void Start()
     {
-        
+        NavMeshAgent agent = transform.parent.GetComponent<NavMeshAgent>();
+        agent.SetDestination(target.position);
+        transform.parent.GetComponentInChildren<Animator>().SetBool("isMooving", true);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.position += Vector3.left * Time.deltaTime * speed;
-    }
+   
 }

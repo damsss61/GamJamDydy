@@ -23,8 +23,7 @@ public class Key : MonoBehaviour, Item
         if (hitInfo.transform.CompareTag("Door"))
         {
             
-            hitInfo.transform.GetComponent<Lock>().LockDoor(this);
-            Debug.Log("Item utilisé");
+            hitInfo.transform.GetComponent<Door>().LockDoor(this);
             return true;
         }
         else

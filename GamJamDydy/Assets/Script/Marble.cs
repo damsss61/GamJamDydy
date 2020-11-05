@@ -9,12 +9,12 @@ public class Marble : MonoBehaviour,Item
     public Sprite sprite;
     public string name;
     public GameObject marblePrefab;
-    List<AI> SlowedNPC;
+    List<NpcController> SlowedNPC;
     public float speedFactor;
 
     public void Start()
     {
-        SlowedNPC = new List<AI>();
+        SlowedNPC = new List<NpcController>();
     }
     public string GetName()
     {
@@ -30,7 +30,7 @@ public class Marble : MonoBehaviour,Item
     {
         if (other.CompareTag("NPC"))
         {
-            AI NPCAI = other.GetComponent<AI>();
+            NpcController NPCAI = other.GetComponent<NpcController>();
             NPCAI.GetComponent<NavMeshAgent>().speed *= speedFactor;
             SlowedNPC.Add(NPCAI);
         }
@@ -40,7 +40,7 @@ public class Marble : MonoBehaviour,Item
     {
         if (other.CompareTag("NPC"))
         {
-            AI NPCAI = other.GetComponent<AI>();
+            NpcController NPCAI = other.GetComponent<NpcController>();
             NPCAI.GetComponent<NavMeshAgent>().speed /= speedFactor;
             SlowedNPC.Remove(NPCAI);
         }
@@ -48,7 +48,7 @@ public class Marble : MonoBehaviour,Item
 
     private void OnDestroy()
     {
-        foreach (AI npc in SlowedNPC)
+        foreach (NpcController npc in SlowedNPC)
         {
             npc.GetComponent<NavMeshAgent>().speed /= speedFactor;
         }
